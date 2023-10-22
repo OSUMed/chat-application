@@ -7,3 +7,5 @@ import com.osumed.chatapplication.domain.Person;
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
 }
+
+
