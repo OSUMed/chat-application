@@ -9,6 +9,18 @@ function addMessage() {
   const message = generalMessageInput.value;
   if (message) {
     const messageElement = document.createElement("li");
+    axios
+      .post("/api/channel/general", {
+        personId: "test-user",
+        message,
+        channel: "general",
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     messageElement.innerText = message;
     mainList.appendChild(messageElement);
     generalMessageInput.value = "";
