@@ -12,11 +12,14 @@ import com.osumed.chatapplication.domain.Person;
 @Service
 public class ChannelService {
 
-	@Autowired
-	MessagesService messagesService;
+    private final MessagesService messagesService;
+    private final PersonService personService;
 
-	@Autowired
-	PersonService personService;
+    @Autowired
+    public ChannelService(MessagesService messagesService, PersonService personService) {
+        this.messagesService = messagesService;
+        this.personService = personService;
+    }
 
 	private List<ArrayList<String>> getMessages(){
 		List<ArrayList<String>> messages = messagesService.getMessages();
