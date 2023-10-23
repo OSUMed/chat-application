@@ -1,5 +1,6 @@
 package com.osumed.chatapplication.web;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,8 @@ public class ChannelController {
     @GetMapping("/general")
     public String getGeneralMessages(ModelMap model) {
     	List<ArrayList<String>> messages = channelService.getMessages("general");
-    	model.put("messages", messages);
+    	List<String> test = Arrays.asList("hello", "world", "people");
+    	model.put("messages", test);
         return "general";
     }
 }

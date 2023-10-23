@@ -1,3 +1,4 @@
+package com.osumed.chatapplication.services;
 import org.springframework.stereotype.Service;
 import com.osumed.chatapplication.domain.Person;
 import java.util.HashMap;
