@@ -1,0 +1,19 @@
+/* Add border to textbox */
+
+#textbox {
+  border: 1px solid black;
+  width: 300px;
+  height: 220px;
+  margin-bottom: 15px;
+  overflow-y: scroll;
+}
+/* Add padding to the ul */
+ul {
+  padding-left: 0;
+}
+
+/* Remove dots from list items */
+ul li {
+  list-style-type: none;
+  margin-left: 15px;
+}

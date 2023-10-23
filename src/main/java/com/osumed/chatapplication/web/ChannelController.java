@@ -27,8 +27,11 @@ public class ChannelController {
     @GetMapping("/general")
     public String getGeneralMessages(ModelMap model) {
     	List<ArrayList<String>> messages = channelService.getMessages("general");
-    	List<String> test = Arrays.asList("hello", "world", "people");
-    	model.put("messages", test);
+    	List<ArrayList<String>> dummyData = new ArrayList<>();
+    	for (int i = 0; i < 50; i++) {
+    		dummyData.add(new ArrayList<>(Arrays.asList("user" + i, "message" + i)));
+    	}
+    	model.put("messages", dummyData);
         return "general";
     }
 }
