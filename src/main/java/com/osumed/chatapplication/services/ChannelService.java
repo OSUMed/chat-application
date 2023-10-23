@@ -21,9 +21,10 @@ public class ChannelService {
         this.personService = personService;
     }
 
-	private List<ArrayList<String>> getMessages(){
+	public List<ArrayList<String>> getMessages(String channel){
 		List<ArrayList<String>> messages = messagesService.getMessages();
 		List<ArrayList<String>> formattedMessages = messages.stream()
+				.filter(innerList -> innerList.get(2) == channel)
 			    .map(innerList -> {
 			    		Long userId = Long.parseLong(innerList.get(1));
 			    		Person person = personService.getPerson(userId);
