@@ -28,8 +28,16 @@ function getMessages() {
       "Content-Type": "application/json",
     },
   })
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+      (res) => res.json();
+    })
     .then((data) => {
+      if (data.error) {
+        throw new Error(data.message);
+      }
       const { allMessages } = data;
       let newMessages;
       let messageElement;
@@ -56,6 +64,9 @@ function getMessages() {
         sessionStorage.setItem("lastMessageId", newLastMessageId);
       }
       console.log("in getMethod: ", newMessages, newLastMessageId);
+    })
+    .catch((error) => {
+      console.error("Fetch error: " + error.message);
     });
   return newLastMessageId;
 }
@@ -80,8 +91,16 @@ function addMessage() {
       },
       body: JSON.stringify(messageObject),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        (res) => res.json();
+      })
       .then((data) => {
+        if (data.error) {
+          throw new Error(data.message);
+        }
         // Get newest message and append to DOM-
         const { allMessages } = data;
         let newMessage = allMessages[allMessages.length - 1];
@@ -97,6 +116,9 @@ function addMessage() {
           "AddMessage: sessionMessageId is in : ",
           sessionMessageId + 1
         );
+      })
+      .catch((error) => {
+        console.error("Fetch error: " + error.message);
       });
 
     generalMessageInput.value = "";
