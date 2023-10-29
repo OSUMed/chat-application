@@ -1,4 +1,5 @@
 package com.osumed.chatapplication.domain;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -17,7 +18,10 @@ public class Message {
     private String message;
     private String personId;
     private String channel;
-    
+
+    public Message() {
+    }
+
     public Message(String message, String personId, String channel) {
         this.message = message;
         this.personId = personId;
@@ -33,6 +37,7 @@ public class Message {
     public void setMessageId(Long messageId) {
         this.messageId = messageId;
     }
+
     public String getMessage() {
         return message;
     }
@@ -55,6 +60,12 @@ public class Message {
 
     public void setChannel(String channel) {
         this.channel = channel;
+    }
+
+    @Override
+    public String toString() {
+        return "Message [messageId=" + messageId + ", message=" + message + ", personId=" + personId + ", channel="
+                + channel + "]";
     }
 
 }
