@@ -16,6 +16,8 @@ public class ChannelService {
 	private final MessagesService messagesService;
 	private final PersonService personService;
 
+	private Integer messageNumber = 0;
+
 	@Autowired
 	public ChannelService(MessagesService messagesService, PersonService personService) {
 		this.messagesService = messagesService;
@@ -31,6 +33,7 @@ public class ChannelService {
 					ArrayList<String> tempList = new ArrayList<>();
 					tempList.add(message.getPersonId());
 					tempList.add(message.getMessage());
+					System.out.println("The next : " + message);
 					return tempList;
 				})
 				.collect(Collectors.toList());
@@ -39,6 +42,10 @@ public class ChannelService {
 	}
 
 	public void addMessage(Message message) {
+		System.out.println("The new message is: " + message);
+		messageNumber += 1;
+		message.setMessageId(messageNumber);
 		messagesService.addMessage(message);
+		System.out.println("The new message is: " + message);
 	}
 }

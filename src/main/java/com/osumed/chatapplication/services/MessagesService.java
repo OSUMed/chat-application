@@ -19,4 +19,8 @@ public class MessagesService {
     public List<Message> getMessages() {
         return allMessages;
     }
+
+    public Integer getLastMessageId() {
+        return allMessages.get(allMessages.size() - 1).getMessageId();
+    }
 }

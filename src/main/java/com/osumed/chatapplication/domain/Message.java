@@ -11,10 +11,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
 public class Message {
 
-    private Long messageId;
+    private Integer messageId;
     private String message;
     private String personId;
     private String channel;
@@ -28,13 +27,11 @@ public class Message {
         this.channel = channel;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getMessageId() {
+    public Integer getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(Long messageId) {
+    public void setMessageId(Integer messageId) {
         this.messageId = messageId;
     }
 

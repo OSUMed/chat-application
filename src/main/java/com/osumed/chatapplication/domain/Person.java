@@ -6,7 +6,6 @@ import javax.persistence.Id;
 
 import javax.persistence.Entity;
 
-@Entity
 public class Person {
     private String name;
     private Long personId;
@@ -16,8 +15,6 @@ public class Person {
         this.personId = personId;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getPersonId() {
         return personId;
     }
@@ -33,7 +30,5 @@ public class Person {
     public void setName(String name) {
         this.name = name;
     }
- 
 
-   
 }

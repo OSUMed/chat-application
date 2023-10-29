@@ -32,7 +32,7 @@ public class ChannelController {
 	@Autowired
 	MessagesService messagesService;
 
-	@GetMapping("/")
+	@GetMapping("")
 	public String getHome() {
 		return "welcome";
 	}
@@ -52,17 +52,32 @@ public class ChannelController {
 
 	@PostMapping("/general")
 	@ResponseBody
-	public List<Message> postMessage(@RequestBody Message message) {
+	public Map<String, Object> postMessage(@RequestBody Message message) {
 		System.out.println("received message is: " + message);
 
 		// 1. Save the received message to the database
-		messagesService.addMessage(message);
+		channelService.addMessage(message);
 		List<Message> allMessages = messagesService.getMessages();
+		Integer lastMessageId = messagesService.getLastMessageId();
+		Map<String, Object> response = new HashMap<>();
+		response.put("allMessages", allMessages);
+		response.put("lastMessageId", lastMessageId);
+		return response;
 		// 2. Fetch the updated list of messages
 
 		// 3. Return the updated messages as a response
 
-		return allMessages;
+	}
+
+	@GetMapping("/general/messages")
+	@ResponseBody
+	public Map<String, Object> getMessages() {
+		List<Message> allMessages = messagesService.getMessages();
+		Integer lastMessageId = messagesService.getLastMessageId();
+		Map<String, Object> response = new HashMap<>();
+		response.put("allMessages", allMessages);
+		response.put("lastMessageId", lastMessageId);
+		return response;
 	}
 
 }
