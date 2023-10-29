@@ -114,8 +114,8 @@ addGeneralMessageButton.addEventListener("click", function (event) {
   addMessage();
 });
 
-// setInterval(function () {
-//   getMessages();
-//   let sessionNum = Number(sessionStorage.getItem("lastMessageId") || 0);
-//   console.log("This message will be logged every 5 seconds", sessionNum);
-// }, 1000);
+setInterval(function () {
+  getMessages();
+  let sessionMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
+  console.log("This message will be logged every 5 seconds", sessionMessageId);
+}, 1000);
