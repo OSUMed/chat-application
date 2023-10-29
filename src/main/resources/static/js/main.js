@@ -13,12 +13,14 @@ if (storedName == null) window.location.href = `/api/channel/`;
 // On page load clear session storage...
 document.addEventListener("DOMContentLoaded", (event) => {
   sessionStorage.setItem("lastMessageId", 0);
-  let newLastMessageId = getMessages();
-  console.log("what is the new thing, : ", newLastMessageId);
+  let anewLastMessageId = getMessages();
+  // sessionStorage.setItem("lastMessageId", newLastMessageId);
+  let newLastMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
+  console.log("getMessage returned newLastMessageId is : ", newLastMessageId);
 });
 
 function getMessages() {
-  let newLastMessageId;
+  let newLastMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
   fetch("/api/channel/general/messages", {
     method: "GET",
     headers: {
@@ -52,13 +54,14 @@ function getMessages() {
         newLastMessageId = newMessages[newMessages.length - 1].messageId;
         sessionStorage.setItem("lastMessageId", newLastMessageId);
       }
+      console.log("in getMethod: ", newMessages, newLastMessageId);
     });
   return newLastMessageId;
 }
 // Add message function
 function addMessage() {
   const message = generalMessageInput.value;
-  console.log("this is the message: ", message);
+  console.log("The new message value is: ", message);
 
   // Construct a JS object to send
   const messageObject = {
@@ -89,7 +92,10 @@ function addMessage() {
           sessionStorage.getItem("lastMessageId") || 0
         );
         sessionStorage.setItem("lastMessageId", sessionMessageId + 1);
-        console.log("AddMessage: sessionMessageId is in : ", sessionMessageId);
+        console.log(
+          "AddMessage: sessionMessageId is in : ",
+          sessionMessageId + 1
+        );
       });
 
     generalMessageInput.value = "";
@@ -114,8 +120,13 @@ addGeneralMessageButton.addEventListener("click", function (event) {
   addMessage();
 });
 
-setInterval(function () {
-  getMessages();
-  let sessionMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
-  console.log("This message will be logged every 5 seconds", sessionMessageId);
-}, 1000);
+// setInterval(function () {
+//   getMessages();
+//   let debugSessionMessageId = Number(
+//     sessionStorage.getItem("lastMessageId") || 0
+//   );
+//   console.log(
+//     "This message will be logged every 5 seconds",
+//     debugSessionMessageId
+//   );
+// }, 1000);
