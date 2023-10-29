@@ -20,23 +20,26 @@ function getMessages() {
     .then((res) => res.json())
     .then((data) => {
       const { allMessages, lastMessageId: newLastMessageId } = data;
-      console.log("lastMessageId is: ", lastMessageId, newLastMessageId);
+      console.log("lastMessageId before is: ", lastMessageId, newLastMessageId);
       let messageElement;
-      const newMessages = allMessages.filter(
-        (message) => message.id > lastMessageId
+      const newMessages = allMessages?.filter(
+        (message) => message.messageId > lastMessageId
       );
-      newMessages.forEach((item) => {
+      newMessages?.forEach((item) => {
         messageElement = document.createElement("li");
         mainList.appendChild(messageElement);
         messageElement.innerText = `${item.personId}: ${item.message}`;
       });
 
-      console.log("this is the GET data: ", data);
+      console.log("this is the newMessages getMessages data: ", newMessages);
       // Update the lastMessageId if new messages were found
-      if (newMessages.length > 0) {
-        lastMessageId = newMessages[newMessages.length - 1].id;
+      if (newMessages?.length > 0) {
+        lastMessageId = newMessages[newMessages.length - 1].messageId;
+        console.log("First is ", newMessages);
+        console.log("second is:  ", newMessages[newMessages.length - 1]);
         sessionStorage.setItem("lastMessageId", lastMessageId);
       }
+      console.log("lastMessageId after is: ", lastMessageId, newLastMessageId);
     });
 }
 // Add message function
@@ -62,9 +65,9 @@ function addMessage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        const { allMessages, lastMessageId } = data;
-        sessionStorage.setItem("lastMessageId", lastMessageId);
+        const { allMessages } = data;
         let newMessage = allMessages[allMessages.length - 1];
+        sessionStorage.setItem("lastMessageId", lastMessageId + 1);
         messageElement.innerText = `${newMessage.personId}: ${newMessage.message}`;
         mainList.appendChild(messageElement);
       });
@@ -91,7 +94,6 @@ addGeneralMessageButton.addEventListener("click", function (event) {
   addMessage();
 });
 // setInterval(function () {
-//   mainList.innerHTML = "";
 //   getMessages();
 //   console.log("This message will be logged every 5 seconds");
 // }, 2000);
