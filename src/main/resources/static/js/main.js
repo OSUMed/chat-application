@@ -7,6 +7,8 @@ const textbox = document.getElementById("textbox");
 // Global Variables
 let lastMessageSessionId = Number(sessionStorage.getItem("lastMessageId") || 0);
 let storedName = sessionStorage.getItem("userName");
+const REFRESH_INTERVAL_MS = 1500;
+const SCROLL_ADJUST_DELAY_MS = 50;
 
 // 2. Function Definitions
 function getMessages() {
@@ -115,7 +117,7 @@ function addMessage() {
     // Adjusting the scroll for textbox
     setTimeout(() => {
       textbox.scrollTop = textbox.scrollHeight;
-    }, 50);
+    }, SCROLL_ADJUST_DELAY_MS);
   }
 }
 
@@ -158,4 +160,4 @@ setInterval(function () {
     "This message will be logged every 5 seconds",
     debugSessionMessageId
   );
-}, 1500);
+}, REFRESH_INTERVAL_MS);
