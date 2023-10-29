@@ -1,4 +1,4 @@
-let lastMessageId = Number(localStorage.getItem("lastMessageId") || 0); // Load from localStorage or default to 0
+let lastMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
 var storedName = sessionStorage.getItem("userName");
 console.log("Stored name is: ", lastMessageId); // Outputs the name stored earlier
 if (storedName == null) window.location.href = `/api/channel/`;
@@ -9,33 +9,36 @@ const generalMessageInput = document.getElementById("general-message");
 const mainList = document.getElementById("list-main");
 const textbox = document.getElementById("textbox"); // to scroll to bottom
 
-// function getMessages() {
-//   lastMessageId = Number(localStorage.getItem("lastMessageId") || 0);
-//   fetch("/api/channel/general/messages", {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   })
-//     .then((res) => res.json())
-//     .then((data) => {
-//       console.log(data);
-//       let messageElement;
-//       const newMessages = data.filter((message) => message.id > lastMessageId);
-//       newMessages.forEach((item) => {
-//         messageElement = document.createElement("li");
-//         mainList.appendChild(messageElement);
-//         messageElement.innerText = `${item.personId}: ${item.message}`;
-//       });
+function getMessages() {
+  lastMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
+  fetch("/api/channel/general/messages", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      const { allMessages, lastMessageId: newLastMessageId } = data;
+      console.log("lastMessageId is: ", lastMessageId, newLastMessageId);
+      let messageElement;
+      const newMessages = allMessages.filter(
+        (message) => message.id > lastMessageId
+      );
+      newMessages.forEach((item) => {
+        messageElement = document.createElement("li");
+        mainList.appendChild(messageElement);
+        messageElement.innerText = `${item.personId}: ${item.message}`;
+      });
 
-//       console.log("this is the GET data: ", data);
-//       // Update the lastMessageId if new messages were found
-//       if (newMessages.length > 0) {
-//         lastMessageId = newMessages[newMessages.length - 1].id;
-//         localStorage.setItem("lastMessageId", lastMessageId); // Store to localStorage
-//       }
-//     });
-// }
+      console.log("this is the GET data: ", data);
+      // Update the lastMessageId if new messages were found
+      if (newMessages.length > 0) {
+        lastMessageId = newMessages[newMessages.length - 1].id;
+        sessionStorage.setItem("lastMessageId", lastMessageId);
+      }
+    });
+}
 // Add message function
 function addMessage() {
   const message = generalMessageInput.value;
@@ -60,10 +63,8 @@ function addMessage() {
       .then((res) => res.json())
       .then((data) => {
         const { allMessages, lastMessageId } = data;
-        console.log("this is the data: ", data);
-        localStorage.setItem("lastMessageId", lastMessageId);
+        sessionStorage.setItem("lastMessageId", lastMessageId);
         let newMessage = allMessages[allMessages.length - 1];
-        console.log("this is the newMessage: ", newMessage);
         messageElement.innerText = `${newMessage.personId}: ${newMessage.message}`;
         mainList.appendChild(messageElement);
       });
