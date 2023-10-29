@@ -157,11 +157,13 @@ addGeneralMessageButton.addEventListener("click", function (event) {
 
 setInterval(function () {
   getMessages();
-  let debugSessionMessageId = Number(
-    sessionStorage.getItem("lastMessageId") || 0
-  );
-  console.log(
-    "This message will be logged every 5 seconds",
-    debugSessionMessageId
-  );
+
+  // Debugging help:
+  // let debugSessionMessageId = Number(
+  //   sessionStorage.getItem("lastMessageId") || 0
+  // );
+  // console.log(
+  //   "This message will be logged every 5 seconds",
+  //   debugSessionMessageId
+  // );
 }, REFRESH_INTERVAL_MS);
