@@ -12,6 +12,7 @@ if (storedName == null) window.location.href = `/api/channel/`;
 
 // On page load clear session storage...
 document.addEventListener("DOMContentLoaded", (event) => {
+  mainList.innerHTML = "";
   sessionStorage.setItem("lastMessageId", 0);
   let anewLastMessageId = getMessages();
   // sessionStorage.setItem("lastMessageId", newLastMessageId);
@@ -120,13 +121,13 @@ addGeneralMessageButton.addEventListener("click", function (event) {
   addMessage();
 });
 
-// setInterval(function () {
-//   getMessages();
-//   let debugSessionMessageId = Number(
-//     sessionStorage.getItem("lastMessageId") || 0
-//   );
-//   console.log(
-//     "This message will be logged every 5 seconds",
-//     debugSessionMessageId
-//   );
-// }, 1000);
+setInterval(function () {
+  getMessages();
+  let debugSessionMessageId = Number(
+    sessionStorage.getItem("lastMessageId") || 0
+  );
+  console.log(
+    "This message will be logged every 5 seconds",
+    debugSessionMessageId
+  );
+}, 1000);
