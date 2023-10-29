@@ -23,7 +23,7 @@ function getMessages() {
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);
       }
-      (res) => res.json();
+      return res.json();
     })
     .then((data) => {
       if (data.error) {
@@ -86,7 +86,7 @@ function addMessage() {
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
         }
-        (res) => res.json();
+        return res.json();
       })
       .then((data) => {
         if (data.error) {
@@ -124,15 +124,19 @@ function addMessage() {
 // 3. On Page Load Logic
 
 // Redirect to login on page load
-if (storedName == null) window.location.href = `/api/channel/`;
+if (storedName === null) window.location.href = `/api/channel/`;
 
 document.addEventListener("DOMContentLoaded", (event) => {
   mainList.innerHTML = "";
   sessionStorage.setItem("lastMessageId", 0);
-  let anewLastMessageId = getMessages();
-  // sessionStorage.setItem("lastMessageId", newLastMessageId);
-  let newLastMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
-  console.log("getMessage returned newLastMessageId is : ", newLastMessageId);
+
+  getMessages();
+
+  // Debugging Helpers: erase later
+  // let anewLastMessageId = getMessages();
+  // // sessionStorage.setItem("lastMessageId", newLastMessageId);
+  // let newLastMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
+  // console.log("getMessage returned newLastMessageId is : ", newLastMessageId);
 });
 
 // 4. Event Listeners
