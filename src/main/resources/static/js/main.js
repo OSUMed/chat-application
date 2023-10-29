@@ -1,3 +1,7 @@
+document.addEventListener("DOMContentLoaded", (event) => {
+  sessionStorage.clear();
+});
+
 let lastMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
 var storedName = sessionStorage.getItem("userName");
 console.log("Stored name is: ", lastMessageId); // Outputs the name stored earlier
