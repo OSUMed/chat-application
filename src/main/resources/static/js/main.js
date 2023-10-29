@@ -1,25 +1,14 @@
-// Cached elements
+// 1. DOM Element Grabbing (Cache elements)
 const addGeneralMessageButton = document.getElementById("add-general-message");
 const generalMessageInput = document.getElementById("general-message");
 const mainList = document.getElementById("list-main");
 const textbox = document.getElementById("textbox");
 
-// Redirect to login on page load-
-// let lastMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
+// Global Variables
 let lastMessageSessionId = Number(sessionStorage.getItem("lastMessageId") || 0);
 let storedName = sessionStorage.getItem("userName");
-if (storedName == null) window.location.href = `/api/channel/`;
 
-// On page load clear session storage...
-document.addEventListener("DOMContentLoaded", (event) => {
-  mainList.innerHTML = "";
-  sessionStorage.setItem("lastMessageId", 0);
-  let anewLastMessageId = getMessages();
-  // sessionStorage.setItem("lastMessageId", newLastMessageId);
-  let newLastMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
-  console.log("getMessage returned newLastMessageId is : ", newLastMessageId);
-});
-
+// 2. Function Definitions
 function getMessages() {
   let newLastMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
   fetch("/api/channel/general/messages", {
@@ -130,7 +119,22 @@ function addMessage() {
   }
 }
 
-// Listen for 'Enter' key press
+// 3. On Page Load Logic
+
+// Redirect to login on page load
+if (storedName == null) window.location.href = `/api/channel/`;
+
+document.addEventListener("DOMContentLoaded", (event) => {
+  mainList.innerHTML = "";
+  sessionStorage.setItem("lastMessageId", 0);
+  let anewLastMessageId = getMessages();
+  // sessionStorage.setItem("lastMessageId", newLastMessageId);
+  let newLastMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
+  console.log("getMessage returned newLastMessageId is : ", newLastMessageId);
+});
+
+// 4. Event Listeners
+
 generalMessageInput.addEventListener("keyup", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -143,6 +147,8 @@ addGeneralMessageButton.addEventListener("click", function (event) {
   addMessage();
 });
 
+// 5. setInterval Logic
+
 setInterval(function () {
   getMessages();
   let debugSessionMessageId = Number(
@@ -152,4 +158,4 @@ setInterval(function () {
     "This message will be logged every 5 seconds",
     debugSessionMessageId
   );
-}, 1000);
+}, 1500);
