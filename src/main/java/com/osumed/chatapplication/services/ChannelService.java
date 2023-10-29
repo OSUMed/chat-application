@@ -7,37 +7,38 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.osumed.chatapplication.domain.Message;
 import com.osumed.chatapplication.domain.Person;
 
 @Service
 public class ChannelService {
 
-    private final MessagesService messagesService;
-    private final PersonService personService;
+	private final MessagesService messagesService;
+	private final PersonService personService;
 
-    @Autowired
-    public ChannelService(MessagesService messagesService, PersonService personService) {
-        this.messagesService = messagesService;
-        this.personService = personService;
-    }
+	@Autowired
+	public ChannelService(MessagesService messagesService, PersonService personService) {
+		this.messagesService = messagesService;
+		this.personService = personService;
+	}
 
-	public List<ArrayList<String>> getMessages(String channel){
-		List<ArrayList<String>> messages = messagesService.getMessages();
+	public List<ArrayList<String>> getMessages(String channel) {
+		List<Message> messages = messagesService.getMessages();
+
 		List<ArrayList<String>> formattedMessages = messages.stream()
-				.filter(innerList -> innerList.get(2) == channel)
-			    .map(innerList -> {
-			    		Long userId = Long.parseLong(innerList.get(1));
-			    		Person person = personService.getPerson(userId);
-			    		String username = person.getName();
-		    		    innerList.set(1, username); // Corrected set method usage
-			    	    return innerList;
-			    		}
-			    )
-			    .collect(Collectors.toList());
+				.filter(message -> channel.equals(message.getChannel()))
+				.map(message -> {
+					ArrayList<String> tempList = new ArrayList<>();
+					tempList.add(message.getPersonId());
+					tempList.add(message.getMessage());
+					return tempList;
+				})
+				.collect(Collectors.toList());
+
 		return formattedMessages;
 	}
 
-	private void addMessage(String message, Person person, String channel) {
-		messagesService.addMessage(message, person.getPersonId(), channel);
+	public void addMessage(Message message) {
+		messagesService.addMessage(message);
 	}
 }

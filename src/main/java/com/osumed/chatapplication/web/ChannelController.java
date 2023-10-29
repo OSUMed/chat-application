@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.osumed.chatapplication.domain.Message;
 
 import com.osumed.chatapplication.services.ChannelService;
+import com.osumed.chatapplication.services.MessagesService;
 import org.springframework.ui.ModelMap;
 
 @Controller
@@ -28,6 +29,9 @@ public class ChannelController {
 	@Autowired
 	ChannelService channelService;
 
+	@Autowired
+	MessagesService messagesService;
+
 	@GetMapping("/")
 	public String getHome() {
 		return "welcome";
@@ -36,11 +40,7 @@ public class ChannelController {
 	@GetMapping("/general")
 	public String getGeneralMessages(ModelMap model) {
 		List<ArrayList<String>> messages = channelService.getMessages("general");
-		List<ArrayList<String>> dummyData = new ArrayList<>();
-		for (int i = 0; i < 50; i++) {
-			dummyData.add(new ArrayList<>(Arrays.asList("user" + i, "message" + i)));
-		}
-		model.put("messages", dummyData);
+		model.put("messages", messages);
 		return "general";
 	}
 
@@ -52,25 +52,17 @@ public class ChannelController {
 
 	@PostMapping("/general")
 	@ResponseBody
-	public List<ArrayList<String>> postMessage(@RequestBody String messageContent) {
-		System.out.println("received message is: " + messageContent);
-
-		ObjectMapper mapper = new ObjectMapper();
-		Message message = null;
-		try {
-			message = mapper.readValue(messageContent, Message.class);
-			System.out.println("Deserialized message: " + message);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public List<Message> postMessage(@RequestBody Message message) {
+		System.out.println("received message is: " + message);
 
 		// 1. Save the received message to the database
-
+		messagesService.addMessage(message);
+		List<Message> allMessages = messagesService.getMessages();
 		// 2. Fetch the updated list of messages
 
 		// 3. Return the updated messages as a response
 
-		return new ArrayList<ArrayList<String>>();
+		return allMessages;
 	}
 
 }
