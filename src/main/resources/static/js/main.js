@@ -13,12 +13,13 @@ const SCROLL_ADJUST_DELAY_MS = 50;
 // 2. Function Definitions
 function getMessages() {
   let newLastMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
-  fetch("/api/channel/general/messages", {
+  const options = {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-  })
+  };
+  fetch("/api/channel/general/messages", options)
     .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);
@@ -67,21 +68,23 @@ function addMessage() {
   console.log("The new message value is: ", message);
 
   // Construct a JS object to send
-  const messageObject = {
+  const messageBody = {
     message: message,
     personId: storedName,
     channel: "general",
   };
 
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: messageBody,
+  };
+
   if (message) {
     const messageElement = document.createElement("li");
-    fetch("/api/channel/general", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(messageObject),
-    })
+    fetch("/api/channel/general", options)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
