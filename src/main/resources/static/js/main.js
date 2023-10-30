@@ -21,9 +21,9 @@ function getMessages() {
   };
   fetch("/api/channel/general/messages", options)
     .then((res) => {
-      // if (!res.ok) {
-      //   throw new Error(`HTTP error! Status: ${res.status}`);
-      // }
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
       return res.json();
     })
     .then((data) => {
@@ -86,9 +86,9 @@ function addMessage() {
     const messageElement = document.createElement("li");
     fetch("/api/channel/general", options)
       .then((res) => {
-        // if (!res.ok) {
-        //   throw new Error(`HTTP error! Status: ${res.status}`);
-        // }
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
         return res.json();
       })
       .then((data) => {
@@ -106,10 +106,6 @@ function addMessage() {
           sessionStorage.getItem("lastMessageId") || 0
         );
         sessionStorage.setItem("lastMessageId", sessionMessageId + 1);
-        console.log(
-          "AddMessage: sessionMessageId is in : ",
-          sessionMessageId + 1
-        );
       })
       .catch((error) => {
         console.error("Fetch error: " + error.message);
@@ -134,12 +130,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
   sessionStorage.setItem("lastMessageId", 0);
 
   getMessages();
-
-  // Debugging Helpers: erase later
-  // let anewLastMessageId = getMessages();
-  // // sessionStorage.setItem("lastMessageId", newLastMessageId);
-  // let newLastMessageId = Number(sessionStorage.getItem("lastMessageId") || 0);
-  // console.log("getMessage returned newLastMessageId is : ", newLastMessageId);
 });
 
 // 4. Event Listeners
@@ -160,13 +150,4 @@ addGeneralMessageButton.addEventListener("click", function (event) {
 
 setInterval(function () {
   getMessages();
-
-  // Debugging help:
-  // let debugSessionMessageId = Number(
-  //   sessionStorage.getItem("lastMessageId") || 0
-  // );
-  // console.log(
-  //   "This message will be logged every 5 seconds",
-  //   debugSessionMessageId
-  // );
 }, REFRESH_INTERVAL_MS);
