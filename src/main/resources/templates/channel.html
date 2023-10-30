@@ -8,9 +8,8 @@
     <h1
       id="message-header"
       th:text="${#strings.capitalize(channel.name)} + ' Chat'"
-    >
-      General Chat
-    </h1>
+    ></h1>
+    <p id="channel-id" th:text="${channel.channelId}" style="display: none"></p>
 
     <div id="textbox">
       <ul id="list-main">

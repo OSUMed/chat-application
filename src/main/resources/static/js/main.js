@@ -3,6 +3,10 @@ const addGeneralMessageButton = document.getElementById("add-general-message");
 const generalMessageInput = document.getElementById("general-message");
 const mainList = document.getElementById("list-main");
 const textbox = document.getElementById("textbox");
+const channelIdTag = document.getElementById("channel-id");
+const channelId = channelIdTag.innerText;
+const url = `/api/channel/${channelId}`;
+const getUrl = `/api/channel/${channelId}/messages`;
 
 // Global Variables
 let lastMessageSessionId = Number(sessionStorage.getItem("lastMessageId") || 0);
@@ -19,7 +23,7 @@ function getMessages() {
       "Content-Type": "application/json",
     },
   };
-  fetch("/api/channel/general/messages", options)
+  fetch(getUrl, options)
     .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);
@@ -84,7 +88,8 @@ function addMessage() {
 
   if (message) {
     const messageElement = document.createElement("li");
-    fetch("/api/channel/general", options)
+
+    fetch(url, options)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
