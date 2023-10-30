@@ -23,7 +23,7 @@ const sendUserIdToServer = (userName) => {
     },
     body: bodyData,
   };
-  fetch("the endppint", options)
+  fetch("api/person", options)
     .then((res) => res.json())
     .then((data) => {
       sessionStorage.setItem("userName", data.name);

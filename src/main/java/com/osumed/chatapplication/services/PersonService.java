@@ -10,6 +10,7 @@ public class PersonService {
 
     // Declare a HashMap with Long keys and Person values
     private PersonRepository personRepository;
+    private Integer personId;
 
     @Autowired
     public PersonService(PersonRepository personRepository) {
@@ -21,9 +22,10 @@ public class PersonService {
         return personRepository.getPerson(userId);
     }
 
-    public void addPerson(String name, Long userId) {
+    public void addPerson(String name) {
         // Retrieve a person from the map by user ID
-        Person person = new Person(name, userId);
+        Person person = new Person(name, personId);
+        personId = personId + 1;
         personRepository.addPerson(person);
     }
 }

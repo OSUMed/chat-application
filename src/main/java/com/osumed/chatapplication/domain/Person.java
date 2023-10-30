@@ -8,18 +8,18 @@ import javax.persistence.Entity;
 
 public class Person {
     private String name;
-    private Long personId;
+    private Integer personId;
 
-    public Person(String name, Long personId) {
+    public Person(String name, Integer personId) {
         this.name = name;
         this.personId = personId;
     }
 
-    public Long getPersonId() {
+    public Integer getPersonId() {
         return personId;
     }
 
-    public void setPersonId(Long personId) {
+    public void setPersonId(Integer personId) {
         this.personId = personId;
     }
 

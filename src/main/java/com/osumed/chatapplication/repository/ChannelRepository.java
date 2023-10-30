@@ -29,10 +29,10 @@ public class ChannelRepository {
         return (long) channels.size() + 1;
     }
 
-    public Optional<Channel> getChannel(String channel_id) {
+    public Optional<Channel> getChannel(Integer channel_id) {
 
         return channels.stream()
-                .filter(channel -> channel.getChannelId().equals(Long.parseLong(channel_id)))
+                .filter(channel -> channel.getChannelId().equals(channel_id))
                 .findFirst();
     }
 

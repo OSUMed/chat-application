@@ -49,11 +49,11 @@ public class ChannelController {
 		return "channel";
 	}
 
-	@PostMapping("/general")
+	@PostMapping("/{channel_id}")
 	@ResponseBody
-	public Map<String, Object> postMessage(@RequestBody Message message) {
+	public Map<String, Object> postMessage(@RequestBody Message message, @PathVariable("channel_id") String channelId) {
 		channelService.addMessageToChannel(message);
-		List<Message> allMessages = messagesService.getMessages();
+		List<Message> allMessages = channelService.getMessagesFromChannel(message.getChannelId());
 		Integer lastMessageId = messagesService.getLastMessageId();
 		Map<String, Object> response = new HashMap<>();
 		response.put("allMessages", allMessages);
@@ -61,6 +61,19 @@ public class ChannelController {
 		return response;
 
 	}
+	// @PostMapping("/{channel_id}")
+	// @ResponseBody
+	// public Map<String, Object> postMessage(@RequestBody Message message,
+	// @PathVariable("channel_id") String channelId) {
+	// channelService.addMessageToChannel(message);
+	// List<Message> allMessages = messagesService.getMessages();
+	// Integer lastMessageId = messagesService.getLastMessageId();
+	// Map<String, Object> response = new HashMap<>();
+	// response.put("allMessages", allMessages);
+	// response.put("lastMessageId", lastMessageId);
+	// return response;
+
+	// }
 
 	@GetMapping("/{channel_id}/messages")
 	@ResponseBody

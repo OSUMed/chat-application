@@ -7,19 +7,19 @@ import javax.persistence.Table;
 import javax.persistence.Entity;
 
 public class Channel {
-    private Long channelId;
+    private Integer channelId;
     private String name;
 
-    public Channel(String name, Long uniqueKey) {
+    public Channel(String name, Integer uniqueKey) {
         this.name = name;
         this.channelId = uniqueKey;
     }
 
-    public Long getChannelId() {
+    public Integer getChannelId() {
         return channelId;
     }
 
-    public void setChannelId(Long channelId) {
+    public void setChannelId(Integer channelId) {
         this.channelId = channelId;
     }
 

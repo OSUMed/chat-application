@@ -15,13 +15,13 @@ public class Message {
 
     private Integer messageId;
     private String message;
-    private String personId;
-    private String channelId;
+    private Integer personId;
+    private Integer channelId;
 
     public Message() {
     }
 
-    public Message(String message, String personId, String channelId) {
+    public Message(String message, Integer personId, Integer channelId) {
         this.message = message;
         this.personId = personId;
         this.channelId = channelId;
@@ -43,19 +43,19 @@ public class Message {
         this.message = message;
     }
 
-    public String getPersonId() {
+    public Integer getPersonId() {
         return personId;
     }
 
-    public void setPersonId(String personId) {
+    public void setPersonId(Integer personId) {
         this.personId = personId;
     }
 
-    public String getChannelId() {
+    public Integer getChannelId() {
         return channelId;
     }
 
-    public void setChannelId(String channelId) {
+    public void setChannelId(Integer channelId) {
         this.channelId = channelId;
     }
 
