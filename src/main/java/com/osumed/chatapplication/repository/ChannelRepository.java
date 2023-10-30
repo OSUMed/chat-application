@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.osumed.chatapplication.domain.Channel;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -33,6 +34,18 @@ public class ChannelRepository {
         return channels.stream()
                 .filter(channel -> channel.getChannelId().equals(Long.parseLong(channel_id)))
                 .findFirst();
+    }
+
+    public List<String> getChannelNames() {
+
+        return channels.stream()
+                .map(channel -> channel.getName())
+                .collect(Collectors.toList());
+    }
+
+    public List<Channel> getChannels() {
+        return channels.stream()
+                .collect(Collectors.toList());
     }
 
 }

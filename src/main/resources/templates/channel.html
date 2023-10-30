@@ -5,7 +5,13 @@
     <script th:src="@{/js/main.js}" defer></script>
   </head>
   <body>
-    <h1 id="message-header">General Chat</h1>
+    <h1
+      id="message-header"
+      th:text="${#strings.capitalize(channel.name)} + ' Chat'"
+    >
+      General Chat
+    </h1>
+
     <div id="textbox">
       <ul id="list-main">
         <li th:each="message : ${messages}">

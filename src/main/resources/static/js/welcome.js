@@ -31,7 +31,7 @@ const sendUserIdToServer = (userName) => {
     });
 };
 
-const introduceUser = () => {
+const introduceUser = (userName) => {
   let paragraph = document.createElement("p");
   const textNode = document.createTextNode(
     `Hello, ${userName}! How are you today?`
@@ -44,5 +44,5 @@ const introduceUser = () => {
 document.addEventListener("DOMContentLoaded", (event) => {
   let userName = promptUserId();
   sendUserIdToServer(userName);
-  introduceUser();
+  introduceUser(userName);
 });

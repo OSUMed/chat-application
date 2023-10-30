@@ -45,12 +45,16 @@ public class ChannelService {
 		return formattedMessages;
 	}
 
-	private Channel getChannel(String channel_id) {
+	public Channel getChannel(String channel_id) {
 		return channelRepository.getChannel(channel_id)
 				.orElseThrow(() -> new RuntimeException("Channel not found for ID: " + channel_id));
 	}
 
 	public void addMessageToChannel(Message message) {
 		messagesService.addMessage(message);
+	}
+
+	public List<Channel> getChannels() {
+		return channelRepository.getChannels();
 	}
 }

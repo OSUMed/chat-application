@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import com.osumed.chatapplication.domain.Person;
 import com.osumed.chatapplication.repository.PersonRepository;
 
-import java.util.HashMap;
-
 @Service
 public class PersonService {
 
