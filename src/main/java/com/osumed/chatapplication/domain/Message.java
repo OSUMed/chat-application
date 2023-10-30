@@ -16,15 +16,15 @@ public class Message {
     private Integer messageId;
     private String message;
     private String personId;
-    private String channel;
+    private String channelId;
 
     public Message() {
     }
 
-    public Message(String message, String personId, String channel) {
+    public Message(String message, String personId, String channelId) {
         this.message = message;
         this.personId = personId;
-        this.channel = channel;
+        this.channelId = channelId;
     }
 
     public Integer getMessageId() {
@@ -51,18 +51,18 @@ public class Message {
         this.personId = personId;
     }
 
-    public String getChannel() {
-        return channel;
+    public String getChannelId() {
+        return channelId;
     }
 
-    public void setChannel(String channel) {
-        this.channel = channel;
+    public void setChannelId(String channelId) {
+        this.channelId = channelId;
     }
 
     @Override
     public String toString() {
         return "Message [messageId=" + messageId + ", message=" + message + ", personId=" + personId + ", channel="
-                + channel + "]";
+                + channelId + "]";
     }
 
 }
