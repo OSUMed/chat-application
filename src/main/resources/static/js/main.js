@@ -21,9 +21,9 @@ function getMessages() {
   };
   fetch("/api/channel/general/messages", options)
     .then((res) => {
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
+      // if (!res.ok) {
+      //   throw new Error(`HTTP error! Status: ${res.status}`);
+      // }
       return res.json();
     })
     .then((data) => {
@@ -79,16 +79,16 @@ function addMessage() {
     headers: {
       "Content-Type": "application/json",
     },
-    body: messageBody,
+    body: JSON.stringify(messageBody),
   };
 
   if (message) {
     const messageElement = document.createElement("li");
     fetch("/api/channel/general", options)
       .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! Status: ${res.status}`);
-        }
+        // if (!res.ok) {
+        //   throw new Error(`HTTP error! Status: ${res.status}`);
+        // }
         return res.json();
       })
       .then((data) => {
