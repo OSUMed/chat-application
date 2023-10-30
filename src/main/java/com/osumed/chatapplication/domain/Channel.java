@@ -10,9 +10,9 @@ public class Channel {
     private Long channelId;
     private String name;
 
-    public Channel(String name, Long channelId) {
+    public Channel(String name, Long uniqueKey) {
         this.name = name;
-        this.channelId = channelId;
+        this.channelId = uniqueKey;
     }
 
     public Long getChannelId() {

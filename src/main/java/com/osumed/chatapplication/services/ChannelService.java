@@ -18,28 +18,26 @@ public class ChannelService {
 
 	private final MessagesService messagesService;
 	private final PersonService personService;
-	private final ChannelService channelService;
 	private final ChannelRepository channelRepository;
 
-	private Integer messageNumber = 0;
-
 	@Autowired
-	public ChannelService(MessagesService messagesService, PersonService personService) {
+	public ChannelService(MessagesService messagesService, PersonService personService,
+			ChannelRepository channelRepository) {
 		this.messagesService = messagesService;
 		this.personService = personService;
+		this.channelRepository = channelRepository;
 	}
 
-	public List<ArrayList<String>> getMessages(String channel_id) {
-		Channel channelObject = channelService.getChannel(channel_id);
+	public List<ArrayList<String>> getMessagesFromChannel(String channel_id) {
+		Channel channelObject = getChannel(channel_id);
 		List<Message> messages = messagesService.getMessages();
 
 		List<ArrayList<String>> formattedMessages = messages.stream()
-				.filter(message -> channelObject.equals(channelService.getChannel(message.getChannelId())))
+				.filter(message -> channelObject.equals(getChannel(message.getChannelId())))
 				.map(message -> {
 					ArrayList<String> tempList = new ArrayList<>();
 					tempList.add(message.getPersonId());
 					tempList.add(message.getMessage());
-					System.out.println("The next : " + message);
 					return tempList;
 				})
 				.collect(Collectors.toList());
@@ -52,11 +50,7 @@ public class ChannelService {
 				.orElseThrow(() -> new RuntimeException("Channel not found for ID: " + channel_id));
 	}
 
-	public void addMessage(Message message) {
-		System.out.println("The new message is: " + message);
-		messageNumber += 1;
-		message.setMessageId(messageNumber);
+	public void addMessageToChannel(Message message) {
 		messagesService.addMessage(message);
-		System.out.println("The new message is: " + message);
 	}
 }

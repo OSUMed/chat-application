@@ -7,6 +7,9 @@ import java.util.Optional;
 import com.osumed.chatapplication.domain.Channel;
 import java.util.UUID;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class ChannelRepository {
     private List<Channel> channels = new ArrayList<>();
 
