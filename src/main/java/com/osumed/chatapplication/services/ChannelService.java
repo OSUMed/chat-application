@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.osumed.chatapplication.domain.Channel;
 import com.osumed.chatapplication.domain.Message;
 import com.osumed.chatapplication.domain.Person;
 
@@ -15,6 +16,8 @@ public class ChannelService {
 
 	private final MessagesService messagesService;
 	private final PersonService personService;
+	private final ChannelService channelService;
+	private final ChannelRepository ChannelRepository;
 
 	private Integer messageNumber = 0;
 
@@ -24,7 +27,8 @@ public class ChannelService {
 		this.personService = personService;
 	}
 
-	public List<ArrayList<String>> getMessages(String channel) {
+	public List<ArrayList<String>> getMessages(String channel_id) {
+		Channel channelObject = channelService.getChannel(channel_id);
 		List<Message> messages = messagesService.getMessages();
 
 		List<ArrayList<String>> formattedMessages = messages.stream()
@@ -39,6 +43,10 @@ public class ChannelService {
 				.collect(Collectors.toList());
 
 		return formattedMessages;
+	}
+
+	private Channel getChannel(String channel_id) {
+
 	}
 
 	public void addMessage(Message message) {

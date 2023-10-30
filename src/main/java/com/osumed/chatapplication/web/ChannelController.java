@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,9 +38,9 @@ public class ChannelController {
 		return "welcome";
 	}
 
-	@GetMapping("/general")
-	public String getGeneralMessages(ModelMap model) {
-		List<ArrayList<String>> messages = channelService.getMessages("general");
+	@GetMapping("/{channel_id}")
+	public String getGeneralMessages(ModelMap model, @PathVariable("channel_id") String channelId)) {
+		List<ArrayList<String>> messages = channelService.getMessages(channelId);
 		model.put("messages", messages);
 		return "general";
 	}
