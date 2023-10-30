@@ -1,33 +1,27 @@
 // 1. DOM Element Grabbing (Cache elements)
 const body = document.getElementById("body");
+const url = "/api/person";
 
 // 2. Function Definitions
 const promptUserId = () => {
   return prompt("Please enter your name:", "Default Name");
 };
 
-function generateUUID() {
-  // Browser API:
-  return crypto.randomUUID();
-}
-
 const sendUserIdToServer = (userName) => {
-  const bodyData = {
-    name: userName,
-    personId: generateUUID(),
-  };
   const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: bodyData,
+    body: JSON.stringify(userName),
   };
-  fetch("api/person", options)
+  fetch(url, options)
     .then((res) => res.json())
     .then((data) => {
       sessionStorage.setItem("userName", data.name);
+      sessionStorage.setItem("userId", data.personId);
       console.log("Hello " + data.name + "! How are you today?");
+      console.log(data);
     });
 };
 

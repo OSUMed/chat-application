@@ -20,13 +20,13 @@ public class ChannelRepository {
     }
 
     public void makeChannel(String channelName) {
-        Long uniqueKey = generateUniqueKey();
+        Integer uniqueKey = generateUniqueKey();
         Channel generalChannel = new Channel(channelName, uniqueKey);
         channels.add(generalChannel);
     }
 
-    public Long generateUniqueKey() {
-        return (long) channels.size() + 1;
+    public Integer generateUniqueKey() {
+        return channels.size() + 1;
     }
 
     public Optional<Channel> getChannel(Integer channel_id) {

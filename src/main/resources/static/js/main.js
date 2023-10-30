@@ -6,7 +6,7 @@ const textbox = document.getElementById("textbox");
 const channelIdTag = document.getElementById("channel-id");
 const channelId = channelIdTag.innerText;
 const url = `/api/channel/${channelId}`;
-const getUrl = `/api/channel/${channelId}/messages`;
+// const getUrl = `/api/channel/${channelId}/messages`;
 
 // Global Variables
 let lastMessageSessionId = Number(sessionStorage.getItem("lastMessageId") || 0);
@@ -23,7 +23,7 @@ function getMessages() {
       "Content-Type": "application/json",
     },
   };
-  fetch(getUrl, options)
+  fetch(url, options)
     .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);
@@ -34,7 +34,7 @@ function getMessages() {
       if (data.error) {
         throw new Error(data.message);
       }
-      const { allMessages } = data;
+      const { messages: allMessages } = data;
       let newMessages;
       let messageElement;
 
@@ -70,12 +70,14 @@ function getMessages() {
 function addMessage() {
   const message = generalMessageInput.value;
   console.log("The new message value is: ", message);
+  const personId = sessionStorage.getItem("personId");
+  console.log("The person id is: ", personId);
 
   // Construct a JS object to send
   const messageBody = {
     message: message,
-    personId: storedName,
-    channel: "general",
+    personId: personId,
+    channelId: channelId,
   };
 
   const options = {

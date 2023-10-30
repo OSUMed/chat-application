@@ -53,8 +53,13 @@ public class ChannelController {
 	@ResponseBody
 	public Map<String, Object> postMessage(@RequestBody Message message, @PathVariable("channel_id") String channelId) {
 		channelService.addMessageToChannel(message);
-		List<Message> allMessages = channelService.getMessagesFromChannel(message.getChannelId());
+		String parsedChannelId = String.valueOf(message.getChannelId());
+
+		// Get Items to return:
+		List<ArrayList<String>> allMessages = channelService.getMessagesFromChannel(parsedChannelId);
 		Integer lastMessageId = messagesService.getLastMessageId();
+
+		// Create response and send it:
 		Map<String, Object> response = new HashMap<>();
 		response.put("allMessages", allMessages);
 		response.put("lastMessageId", lastMessageId);
@@ -75,18 +80,17 @@ public class ChannelController {
 
 	// }
 
-	@GetMapping("/{channel_id}/messages")
-	@ResponseBody
-	public Map<String, Object> getMessages(@PathVariable("channel_id") String channelId) {
-		List<ArrayList<String>> messages = channelService.getMessagesFromChannel(channelId);
-
-		List<Message> allMessages = messagesService.getMessages();
-		Integer lastMessageId = messagesService.getLastMessageId();
-		Map<String, Object> response = new HashMap<>();
-		response.put("allMessages", messages);
-		response.put("lastMessageId", lastMessageId);
-		return response;
-	}
+	// @GetMapping("/{channel_id}/messages")
+	// @ResponseBody
+	// public Map<String, Object> getMessages(@PathVariable("channel_id") String
+	// channelId) {
+	// List<Message> messages = channelService.getMessagesFromChannel(channelId);
+	// Integer lastMessageId = messagesService.getLastMessageId();
+	// Map<String, Object> response = new HashMap<>();
+	// response.put("allMessages", messages);
+	// response.put("lastMessageId", lastMessageId);
+	// return response;
+	// }
 	// @GetMapping("/{channel_id}/messages")
 	// @ResponseBody
 	// public Map<String, Object> getMessages(@PathVariable("channel_id") String

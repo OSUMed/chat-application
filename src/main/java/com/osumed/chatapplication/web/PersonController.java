@@ -19,14 +19,15 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public String getMessages() {
         return "Hello";
     }
 
-    @PostMapping("/")
-    public String postUser(@RequestBody String username) {
-        personService.addPerson(username);
-        return "Hello";
+    @PostMapping("")
+    public Person postUser(@RequestBody String username) {
+        System.out.println(username);
+        Person returnedPerson = personService.addPerson(username);
+        return returnedPerson;
     }
 }

@@ -28,20 +28,28 @@ public class ChannelService {
 		this.channelRepository = channelRepository;
 	}
 
-	public List<Message> getMessagesFromChannel(Integer channel_id) {
-		Channel channelObject = getChannel(channel_id);
+	public List<ArrayList<String>> getMessagesFromChannel(String channelId) {
+		Channel channelObject = getChannel(channelId);
 		List<Message> messages = messagesService.getMessages();
 
-		List<Message> formattedMessages = messages.stream()
+		List<ArrayList<String>> formattedMessages = messages.stream()
 				.filter(message -> message.getChannelId().equals(channelObject.getChannelId()))
+				.map(message -> {
+					ArrayList<String> messageFormatted = new ArrayList<>();
+					messageFormatted.add(personService.getPerson(message.getPersonId()).getName());
+					messageFormatted.add(message.getMessage());
+					return messageFormatted;
+
+				})
 				.collect(Collectors.toList());
 
 		return formattedMessages;
 	}
 
-	public Channel getChannel(Integer channel_id) {
-		return channelRepository.getChannel(channel_id)
-				.orElseThrow(() -> new RuntimeException("Channel not found for ID: " + channel_id));
+	public Channel getChannel(String channelId) {
+		Integer channelIdInt = Integer.parseInt(channelId);
+		return channelRepository.getChannel(channelIdInt)
+				.orElseThrow(() -> new RuntimeException("Channel not found for ID: " + channelIdInt));
 	}
 
 	public void addMessageToChannel(Message message) {
