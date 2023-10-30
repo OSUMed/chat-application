@@ -14,12 +14,12 @@ public class PersonService {
 
     @Autowired
     public PersonService(PersonRepository personRepository) {
-        this.personRepository = new PersonRepository();
+        this.personRepository = personRepository;
     }
 
     public Person getPerson(Integer userId) {
-        // Retrieve a person from the map by user ID
-        return personRepository.getPerson(userId);
+        return personRepository.getPerson(userId)
+                .orElseThrow(() -> new RuntimeException("Person not found with userId: " + userId));
     }
 
     public Person addPerson(String name) {

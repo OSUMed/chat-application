@@ -70,7 +70,7 @@ function getMessages() {
 function addMessage() {
   const message = generalMessageInput.value;
   console.log("The new message value is: ", message);
-  const personId = sessionStorage.getItem("personId");
+  const personId = sessionStorage.getItem("userId");
   console.log("The person id is: ", personId);
 
   // Construct a JS object to send
@@ -103,9 +103,10 @@ function addMessage() {
           throw new Error(data.message);
         }
         // Get newest message and append to DOM-
-        const { allMessages } = data;
-        let newMessage = allMessages[allMessages.length - 1];
-        messageElement.innerText = `${newMessage.personId}: ${newMessage.message}`;
+
+        let newMessage = data[data.length - 1];
+        console.log("What is new message: ", newMessage);
+        messageElement.innerText = `${newMessage[0]}: ${newMessage[1]}`;
         mainList.appendChild(messageElement);
 
         // Get current session message number and update it:

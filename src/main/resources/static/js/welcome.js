@@ -20,6 +20,8 @@ const sendUserIdToServer = (userName) => {
     .then((data) => {
       sessionStorage.setItem("userName", data.name);
       sessionStorage.setItem("userId", data.personId);
+      let userIdReturn = sessionStorage.getItem("userId");
+
       console.log("Hello " + data.name + "! How are you today?");
       console.log(data);
     });

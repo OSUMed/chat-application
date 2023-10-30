@@ -51,7 +51,8 @@ public class ChannelController {
 
 	@PostMapping("/{channel_id}")
 	@ResponseBody
-	public Map<String, Object> postMessage(@RequestBody Message message, @PathVariable("channel_id") String channelId) {
+	public List<ArrayList<String>> postMessage(@RequestBody Message message,
+			@PathVariable("channel_id") String channelId) {
 		channelService.addMessageToChannel(message);
 		String parsedChannelId = String.valueOf(message.getChannelId());
 
@@ -63,7 +64,7 @@ public class ChannelController {
 		Map<String, Object> response = new HashMap<>();
 		response.put("allMessages", allMessages);
 		response.put("lastMessageId", lastMessageId);
-		return response;
+		return allMessages;
 
 	}
 	// @PostMapping("/{channel_id}")
