@@ -74,7 +74,7 @@ function addMessage() {
   const messageBody = {
     message: message,
     userId: storedUserId,
-    channel: channelId,
+    channelId: channelId,
   };
   console.log("sending message body is: ", messageBody, url);
 
@@ -100,9 +100,9 @@ function addMessage() {
           throw new Error(data.message);
         }
         // Get newest message and append to DOM-
-        const { allMessages } = data;
-        let newMessage = allMessages[allMessages.length - 1];
-        messageElement.innerText = `${newMessage.personId}: ${newMessage.message}`;
+        console.log("what are the main.js res for addMsg: ", data);
+        let newMessage = data[data.length - 1];
+        messageElement.innerText = `${newMessage[0]}: ${newMessage[1]}`;
         mainList.appendChild(messageElement);
 
         // Get current session message number and update it:

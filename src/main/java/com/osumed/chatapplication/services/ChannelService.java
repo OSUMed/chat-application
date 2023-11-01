@@ -41,6 +41,7 @@ public class ChannelService {
 					ArrayList<String> tempList = new ArrayList<>();
 					Integer userId = message.getUserId();
 					Optional<User> user = userService.getUser(userId);
+					System.out.println("the user is: " + user.get().getName());
 					if (user.isPresent()) {
 						tempList.add(user.get().getName());
 						tempList.add(message.getMessage());

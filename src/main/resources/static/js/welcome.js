@@ -28,8 +28,9 @@ const sendUserIdToServer = (userName) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(userName),
+    body: userName,
   };
+  console.log("we are sending- ", options);
   fetch(url, options)
     .then((res) => res.json())
     .then((data) => {
