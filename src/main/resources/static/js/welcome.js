@@ -1,15 +1,49 @@
-// Cached elements
+// 1. DOM Element Grabbing (Cache elements)
 const body = document.getElementById("body");
+const url = "/api/user";
 
-var userName = prompt("Please enter your name:", "Default Name");
-let paragraph = document.createElement("p");
-const textNode = document.createTextNode(
-  `Hello, ${userName}! How are you today?`
-);
-paragraph.appendChild(textNode);
-body.appendChild(paragraph);
+// 2. Helper Functions
+const promptUserName = () => {
+  return prompt("Please enter your name:", "Default Name");
+};
 
-if (userName != null) {
-  sessionStorage.setItem("userName", userName);
-  console.log("Hello " + userName + "! How are you today?");
-}
+const storeUserInfoSessions = (name, userId) => {
+  sessionStorage.setItem("userName", name);
+  sessionStorage.setItem("userId", userId);
+  console.log("Hello " + name + "! How are you today?");
+};
+
+const attachUserDialogToDom = (userName) => {
+  let paragraph = document.createElement("p");
+  const textNode = document.createTextNode(
+    `Hello, ${userName}! How are you today?`
+  );
+  paragraph.appendChild(textNode);
+  body.appendChild(paragraph);
+};
+
+const sendUserIdToServer = (userName) => {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userName),
+  };
+  fetch(url, options)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("User POST response is: ", data);
+      let name = data.name;
+      let userId = data.userId;
+      storeUserInfoSessions(name, userId);
+    });
+};
+
+// 3. On Page Load Logic
+document.addEventListener("DOMContentLoaded", (event) => {
+  // Prompt User's name, send to server & save to sessions:
+  let userName = promptUserName();
+  sendUserIdToServer(userName);
+  attachUserDialogToDom(userName);
+});
