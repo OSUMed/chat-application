@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,47 +38,57 @@ public class ChannelController {
 		return "welcome";
 	}
 
-	@GetMapping("/general")
-	public String getGeneralMessages(ModelMap model) {
-		List<ArrayList<String>> messages = channelService.getMessages("general");
-		model.put("messages", messages);
-		return "general";
+	@GetMapping("/{channel_id}")
+	public String getGeneralMessages(ModelMap model, @PathVariable("channel_id") String channelId) {
+		// List<ArrayList<String>> messages =
+		// channelService.getMessagesFromChannel(channelId);
+		Channel channel = channelService.getChannel(channelId);
+		// model.put("messages", messages);
+		model.put("channel", channel);
+		return "channel";
 	}
 
-	@GetMapping("/test")
-	@ResponseBody
-	public String getTest() {
-		return "This is a test";
-	}
+	// @GetMapping("/general")
+	// public String getGeneralMessages(ModelMap model) {
+	// List<ArrayList<String>> messages = channelService.getMessages("general");
+	// model.put("messages", messages);
+	// return "general";
+	// }
 
-	@PostMapping("/general")
-	@ResponseBody
-	public Map<String, Object> postMessage(@RequestBody Message message) {
-		System.out.println("received message is: " + message);
+	// @GetMapping("/test")
+	// @ResponseBody
+	// public String getTest() {
+	// return "This is a test";
+	// }
 
-		// 1. Save the received message to the database
-		channelService.addMessage(message);
-		List<Message> allMessages = messagesService.getMessages();
-		Integer lastMessageId = messagesService.getLastMessageId();
-		Map<String, Object> response = new HashMap<>();
-		response.put("allMessages", allMessages);
-		response.put("lastMessageId", lastMessageId);
-		return response;
-		// 2. Fetch the updated list of messages
+	// @PostMapping("/general")
+	// @ResponseBody
+	// public Map<String, Object> postMessage(@RequestBody Message message) {
+	// System.out.println("received message is: " + message);
 
-		// 3. Return the updated messages as a response
+	// // 1. Save the received message to the database
+	// channelService.addMessage(message);
+	// List<Message> allMessages = messagesService.getMessages();
+	// Integer lastMessageId = messagesService.getLastMessageId();
+	// Map<String, Object> response = new HashMap<>();
+	// response.put("allMessages", allMessages);
+	// response.put("lastMessageId", lastMessageId);
+	// return response;
+	// // 2. Fetch the updated list of messages
 
-	}
+	// // 3. Return the updated messages as a response
 
-	@GetMapping("/general/messages")
-	@ResponseBody
-	public Map<String, Object> getMessages() {
-		List<Message> allMessages = messagesService.getMessages();
-		Integer lastMessageId = messagesService.getLastMessageId();
-		Map<String, Object> response = new HashMap<>();
-		response.put("allMessages", allMessages);
-		response.put("lastMessageId", lastMessageId);
-		return response;
-	}
+	// }
+
+	// @GetMapping("/general/messages")
+	// @ResponseBody
+	// public Map<String, Object> getMessages() {
+	// List<Message> allMessages = messagesService.getMessages();
+	// Integer lastMessageId = messagesService.getLastMessageId();
+	// Map<String, Object> response = new HashMap<>();
+	// response.put("allMessages", allMessages);
+	// response.put("lastMessageId", lastMessageId);
+	// return response;
+	// }
 
 }

@@ -54,12 +54,12 @@ public class ChannelService {
 		System.out.println("The new message is: " + message);
 	}
 
-	// public Channel getChannel(String channelId) {
-	// Integer channelIdInt = Integer.parseInt(channelId);
-	// return channelRepository.getChannel(channelIdInt)
-	// .orElseThrow(() -> new RuntimeException("Channel not found for ID: " +
-	// channelIdInt));
-	// }
+	public Channel getChannel(String channelId) {
+		Integer channelIdInt = Integer.parseInt(channelId);
+		return channelRepository.getChannel(channelIdInt)
+				.orElseThrow(() -> new RuntimeException("Channel not found for ID: " +
+						channelIdInt));
+	}
 
 	public List<Channel> getChannels() {
 		return channelRepository.getChannels();
