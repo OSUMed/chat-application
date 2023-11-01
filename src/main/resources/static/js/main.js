@@ -3,10 +3,13 @@ const addGeneralMessageButton = document.getElementById("add-general-message");
 const generalMessageInput = document.getElementById("general-message");
 const mainList = document.getElementById("list-main");
 const textbox = document.getElementById("textbox");
+const channelIdTag = document.getElementById("channel-id");
 
 // Global Variables
 let lastMessageSessionId = Number(sessionStorage.getItem("lastMessageId") || 0);
-let storedName = sessionStorage.getItem("userName");
+let storedUserId = sessionStorage.getItem("userId");
+const channelId = channelIdTag.innerText;
+const url = `/api/channel/${channelId}`;
 const REFRESH_INTERVAL_MS = 1500;
 const SCROLL_ADJUST_DELAY_MS = 50;
 
@@ -70,9 +73,10 @@ function addMessage() {
   // Construct a JS object to send
   const messageBody = {
     message: message,
-    personId: storedName,
-    channel: "general",
+    userId: storedUserId,
+    channel: channelId,
   };
+  console.log("sending message body is: ", messageBody, url);
 
   const options = {
     method: "POST",
@@ -84,7 +88,7 @@ function addMessage() {
 
   if (message) {
     const messageElement = document.createElement("li");
-    fetch("/api/channel/general", options)
+    fetch(url, options)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
@@ -123,13 +127,13 @@ function addMessage() {
 // 3. On Page Load Logic
 
 // Redirect to login on page load
-if (storedName === null) window.location.href = `/api/channel/`;
+if (storedUserId === null) window.location.href = `/api/channel/`;
 
 document.addEventListener("DOMContentLoaded", (event) => {
   mainList.innerHTML = "";
   sessionStorage.setItem("lastMessageId", 0);
 
-  getMessages();
+  // getMessages();
 });
 
 // 4. Event Listeners
@@ -149,5 +153,5 @@ addGeneralMessageButton.addEventListener("click", function (event) {
 // 5. setInterval Logic
 
 setInterval(function () {
-  getMessages();
+  // getMessages();
 }, REFRESH_INTERVAL_MS);

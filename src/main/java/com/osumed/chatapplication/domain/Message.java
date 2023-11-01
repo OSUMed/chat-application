@@ -4,16 +4,16 @@ public class Message {
 
     private Integer messageId;
     private String message;
-    private String userId;
-    private String channel;
+    private Integer userId;
+    private Integer channelId;
 
     public Message() {
     }
 
-    public Message(String message, String userId, String channel) {
+    public Message(String message, Integer userId, Integer channelId) {
         this.message = message;
         this.userId = userId;
-        this.channel = channel;
+        this.channelId = channelId;
     }
 
     public Integer getMessageId() {
@@ -32,26 +32,26 @@ public class Message {
         this.message = message;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public String getChannel() {
-        return channel;
+    public Integer getChannelId() {
+        return channelId;
     }
 
-    public void setChannel(String channel) {
-        this.channel = channel;
+    public void setChannelId(Integer channelId) {
+        this.channelId = channelId;
     }
 
     @Override
     public String toString() {
-        return "Message [messageId=" + messageId + ", message=" + message + ", userId=" + userId + ", channel="
-                + channel + "]";
+        return "Message [messageId=" + messageId + ", message=" + message + ", userId=" + userId + ", channelId="
+                + channelId + "]";
     }
 
 }

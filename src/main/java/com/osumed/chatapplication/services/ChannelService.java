@@ -2,6 +2,7 @@ package com.osumed.chatapplication.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +30,22 @@ public class ChannelService {
 		this.channelRepository = channelRepository;
 	}
 
-	public List<ArrayList<String>> getMessages(String channel) {
+	public List<ArrayList<String>> getMessagesFromChannel(String channelId) {
+		Channel currentChannel = getChannel(channelId);
 		List<Message> messages = messagesService.getMessages();
 
 		List<ArrayList<String>> formattedMessages = messages.stream()
-				.filter(message -> channel.equals(message.getChannel()))
+				.filter(message -> currentChannel.getChannelId().equals(message.getChannelId()))
+
 				.map(message -> {
 					ArrayList<String> tempList = new ArrayList<>();
-					tempList.add(message.getUserId());
-					tempList.add(message.getMessage());
-					System.out.println("The next : " + message);
+					Integer userId = message.getUserId();
+					Optional<User> user = userService.getUser(userId);
+					if (user.isPresent()) {
+						tempList.add(user.get().getName());
+						tempList.add(message.getMessage());
+						System.out.println("The current add : " + tempList);
+					}
 					return tempList;
 				})
 				.collect(Collectors.toList());
