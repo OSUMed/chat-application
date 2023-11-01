@@ -1,34 +1,34 @@
 package com.osumed.chatapplication.services;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.osumed.chatapplication.domain.Message;
 import com.osumed.chatapplication.domain.MessageDTO;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.osumed.chatapplication.repository.MessagesRepository;
 
 @Service
 public class MessagesService {
-    List<Message> allMessages = new ArrayList<Message>();
-    private Integer messageId = 0;
+
+    @Autowired
+    private MessagesRepository messagesRepository;
 
     public void addMessage(Message message) {
-        allMessages.add(message); // Add the new message to the list
+        messagesRepository.save(message);
     }
 
     public List<Message> getMessages() {
-        return allMessages;
+        return messagesRepository.findAll();
     }
 
     public Integer getLastMessageId() {
-        return allMessages.get(allMessages.size() - 1).getMessageId();
+        return messagesRepository.findLastMessageId();
     }
 
     public Message convertDTOToMessage(MessageDTO messageDTO) {
         Message message = new Message();
-        message.setMessageId(messageId);
-        messageId++;
         message.setUserId(Integer.parseInt(messageDTO.getUserId()));
         message.setChannelId(Integer.parseInt(messageDTO.getChannelId()));
         message.setMessage(messageDTO.getMessage());
