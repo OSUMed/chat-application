@@ -1,25 +1,19 @@
 package com.osumed.chatapplication.domain;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 public class Channel {
-    private Long channelId;
+    private Integer channelId;
     private String name;
 
-    public Channel(String name, Long channelId) {
+    public Channel(String name, Integer uniqueKey) {
         this.name = name;
-        this.channelId = channelId;
+        this.channelId = uniqueKey;
     }
 
-    public Long getChannelId() {
+    public Integer getChannelId() {
         return channelId;
     }
 
-    public void setChannelId(Long channelId) {
+    public void setChannelId(Integer channelId) {
         this.channelId = channelId;
     }
 

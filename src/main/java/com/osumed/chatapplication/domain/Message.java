@@ -1,29 +1,18 @@
 package com.osumed.chatapplication.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 public class Message {
 
     private Integer messageId;
     private String message;
-    private String personId;
+    private String userId;
     private String channel;
 
     public Message() {
     }
 
-    public Message(String message, String personId, String channel) {
+    public Message(String message, String userId, String channel) {
         this.message = message;
-        this.personId = personId;
+        this.userId = userId;
         this.channel = channel;
     }
 
@@ -43,12 +32,12 @@ public class Message {
         this.message = message;
     }
 
-    public String getPersonId() {
-        return personId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setPersonId(String personId) {
-        this.personId = personId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getChannel() {
@@ -61,7 +50,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message [messageId=" + messageId + ", message=" + message + ", personId=" + personId + ", channel="
+        return "Message [messageId=" + messageId + ", message=" + message + ", userId=" + userId + ", channel="
                 + channel + "]";
     }
 

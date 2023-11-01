@@ -6,7 +6,6 @@ import com.osumed.chatapplication.domain.Message;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 
 @Service
 public class MessagesService {
