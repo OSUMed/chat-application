@@ -10,6 +10,7 @@ let lastMessageSessionId = Number(sessionStorage.getItem("lastMessageId") || 0);
 let storedUserId = sessionStorage.getItem("userId");
 const channelId = channelIdTag.innerText;
 const url = `/api/channel/${channelId}`;
+const getUrl = `/api/channel/${channelId}/messages`;
 const REFRESH_INTERVAL_MS = 1500;
 const SCROLL_ADJUST_DELAY_MS = 50;
 
@@ -22,7 +23,7 @@ function getMessages() {
       "Content-Type": "application/json",
     },
   };
-  fetch("/api/channel/general/messages", options)
+  fetch(getUrl, options)
     .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);
@@ -33,29 +34,30 @@ function getMessages() {
       if (data.error) {
         throw new Error(data.message);
       }
-      const { allMessages } = data;
+      const { allMessages, lastMessagesId } = data;
       let newMessages;
       let messageElement;
-
+      console.log("getmessages allMessages is: ", allMessages);
       // Filter out messages newer than session message Id:
       let sessionMessageId = Number(
         sessionStorage.getItem("lastMessageId") || 0
       );
-
+      console.log("session message id is: ", sessionMessageId);
       newMessages = allMessages?.filter(
-        (message) => message.messageId > sessionMessageId
+        (message) => message[2] > sessionMessageId
       );
+      console.log("newMessages message is: ", newMessages);
 
       // Iterate and append new messages to DOM:
-      newMessages?.forEach((item) => {
+      newMessages?.forEach((newMessage) => {
         messageElement = document.createElement("li");
         mainList.appendChild(messageElement);
-        messageElement.innerText = `${item.personId}: ${item.message}`;
+        messageElement.innerText = `${newMessage[0]}: ${newMessage[1]}`;
       });
 
       // Update the lastMessageId if new messages were found
       if (newMessages?.length > 0) {
-        newLastMessageId = newMessages[newMessages.length - 1].messageId;
+        newLastMessageId = newMessages[newMessages.length - 1][2];
         sessionStorage.setItem("lastMessageId", newLastMessageId);
       }
       console.log("in getMethod: ", newMessages, newLastMessageId);
@@ -63,6 +65,7 @@ function getMessages() {
     .catch((error) => {
       console.error("Fetch error: " + error.message);
     });
+
   return newLastMessageId;
 }
 // Add message function
@@ -133,7 +136,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   mainList.innerHTML = "";
   sessionStorage.setItem("lastMessageId", 0);
 
-  // getMessages();
+  getMessages();
 });
 
 // 4. Event Listeners
@@ -153,5 +156,5 @@ addGeneralMessageButton.addEventListener("click", function (event) {
 // 5. setInterval Logic
 
 setInterval(function () {
-  // getMessages();
+  getMessages();
 }, REFRESH_INTERVAL_MS);

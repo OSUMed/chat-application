@@ -27,8 +27,8 @@ public class MessagesService {
 
     public Message convertDTOToMessage(MessageDTO messageDTO) {
         Message message = new Message();
-        messageId++;
         message.setMessageId(messageId);
+        messageId++;
         message.setUserId(Integer.parseInt(messageDTO.getUserId()));
         message.setChannelId(Integer.parseInt(messageDTO.getChannelId()));
         message.setMessage(messageDTO.getMessage());

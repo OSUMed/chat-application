@@ -48,9 +48,34 @@ public class ChannelController {
 		return "channel";
 	}
 
+	@GetMapping("/{channel_id}/messages")
+	@ResponseBody
+	public Map<String, Object> getChannelMessages(ModelMap model, @PathVariable("channel_id") String channelId) {
+		// List<ArrayList<String>> messages =
+		List<ArrayList<Object>> allMessages = channelService.getMessagesFromChannel(channelId);
+		System.out.println("The coming messages in messages is: " + allMessages);
+		// model.put("messages", messages);
+		Integer lastMessageId = messagesService.getLastMessageId();
+		Map<String, Object> response = new HashMap<>();
+		response.put("allMessages", allMessages);
+		response.put("lastMessageId", lastMessageId);
+		return response;
+	}
+
+	// @GetMapping("/{channel_id}/messages")
+	// @ResponseBody
+	// public Map<String, Object> getMessages() {
+	// List<Message> allMessages = messagesService.getMessages();
+	// Integer lastMessageId = messagesService.getLastMessageId();
+	// Map<String, Object> response = new HashMap<>();
+	// response.put("allMessages", allMessages);
+	// response.put("lastMessageId", lastMessageId);
+	// return response;
+	// }
+
 	@PostMapping("/{channel_id}")
 	@ResponseBody
-	public List<ArrayList<String>> postMessage(@RequestBody MessageDTO messageDTO,
+	public List<ArrayList<Object>> postMessage(@RequestBody MessageDTO messageDTO,
 			@PathVariable("channel_id") String channelId) {
 		Message message = messagesService.convertDTOToMessage(messageDTO);
 
@@ -61,7 +86,7 @@ public class ChannelController {
 		// String parsedChannelId = String.valueOf(message.getChannelId());
 
 		// Get Items to return:
-		List<ArrayList<String>> allMessages = channelService.getMessagesFromChannel(messageDTO.getChannelId());
+		List<ArrayList<Object>> allMessages = channelService.getMessagesFromChannel(messageDTO.getChannelId());
 		System.out.println("What are the returned messages? " + allMessages);
 		System.out.println("What are the returned messages? " + allMessages);
 		// Integer lastMessageId = messagesService.getLastMessageId();
@@ -102,17 +127,6 @@ public class ChannelController {
 
 	// // 3. Return the updated messages as a response
 
-	// }
-
-	// @GetMapping("/general/messages")
-	// @ResponseBody
-	// public Map<String, Object> getMessages() {
-	// List<Message> allMessages = messagesService.getMessages();
-	// Integer lastMessageId = messagesService.getLastMessageId();
-	// Map<String, Object> response = new HashMap<>();
-	// response.put("allMessages", allMessages);
-	// response.put("lastMessageId", lastMessageId);
-	// return response;
 	// }
 
 }

@@ -30,27 +30,29 @@ public class ChannelService {
 		this.channelRepository = channelRepository;
 	}
 
-	public List<ArrayList<String>> getMessagesFromChannel(String channelId) {
+	public List<ArrayList<Object>> getMessagesFromChannel(String channelId) {
 		Channel currentChannel = getChannel(channelId);
 		List<Message> messages = messagesService.getMessages();
 
-		List<ArrayList<String>> formattedMessages = messages.stream()
+		System.out.println("The current messages : " + messages);
+		List<ArrayList<Object>> formattedMessages = messages.stream()
 				.filter(message -> currentChannel.getChannelId().equals(message.getChannelId()))
-
 				.map(message -> {
-					ArrayList<String> tempList = new ArrayList<>();
+					ArrayList<Object> tempList = new ArrayList<>();
 					Integer userId = message.getUserId();
 					Optional<User> user = userService.getUser(userId);
-					System.out.println("the user is: " + user.get().getName());
 					if (user.isPresent()) {
+						System.out.println("the user is: " + user.get().getName());
 						tempList.add(user.get().getName());
 						tempList.add(message.getMessage());
+						tempList.add(message.getMessageId());
 						System.out.println("The current add : " + tempList);
 					}
 					return tempList;
 				})
 				.collect(Collectors.toList());
 
+		System.out.println("The current formattedMessages : " + formattedMessages);
 		return formattedMessages;
 	}
 
