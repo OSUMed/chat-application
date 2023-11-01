@@ -5,6 +5,9 @@ import com.osumed.chatapplication.domain.Message;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class MessagesRepository {
 
     private List<Message> allMessages = new ArrayList<>();
