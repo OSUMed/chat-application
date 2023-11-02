@@ -39,8 +39,7 @@ public class ChannelController {
 	}
 
 	@GetMapping("/{channel_id}")
-	public String getGeneralMessages(ModelMap model, @PathVariable("channel_id") String channelId) {
-		channelService.getMessagesFromChannel(channelId);
+	public String getChannelDetails(ModelMap model, @PathVariable("channel_id") String channelId) {
 		Channel channel = channelService.getChannel(channelId);
 		model.put("channel", channel);
 		return "channel";
@@ -49,18 +48,21 @@ public class ChannelController {
 	@GetMapping("/{channel_id}/messages")
 	@ResponseBody
 	public Map<String, Object> getChannelMessages(ModelMap model, @PathVariable("channel_id") String channelId) {
+		Map<String, Object> response = new HashMap<>();
 		List<ArrayList<Object>> allMessages = channelService.getMessagesFromChannel(channelId);
 		Integer lastMessageId = messagesService.getLastMessageId();
-		Map<String, Object> response = new HashMap<>();
 		response.put("allMessages", allMessages);
 		response.put("lastMessageId", lastMessageId);
 		return response;
 	}
 
-	@PostMapping("/{channel_id}")
+	@PostMapping("/{channel_id}/messages")
 	@ResponseBody
 	public List<ArrayList<Object>> postMessage(@RequestBody MessageDTO messageDTO,
 			@PathVariable("channel_id") String channelId) {
+
+		// messageDTO is used to create message entity. message entity is added and all
+		// messages are queried to be returned:
 		Message message = messagesService.convertDTOToMessage(messageDTO);
 		messagesService.addMessage((message));
 

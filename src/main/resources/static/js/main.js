@@ -9,8 +9,7 @@ const channelIdTag = document.getElementById("channel-id");
 let lastMessageSessionId = Number(sessionStorage.getItem("lastMessageId") || 0);
 let storedUserId = sessionStorage.getItem("userId");
 const channelId = channelIdTag.innerText;
-const url = `/api/channel/${channelId}`;
-const getUrl = `/api/channel/${channelId}/messages`;
+const url = `/api/channel/${channelId}/messages`;
 const REFRESH_INTERVAL_MS = 500;
 const SCROLL_ADJUST_DELAY_MS = 50;
 
@@ -23,7 +22,7 @@ function getMessages() {
       "Content-Type": "application/json",
     },
   };
-  fetch(getUrl, options)
+  fetch(url, options)
     .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);
