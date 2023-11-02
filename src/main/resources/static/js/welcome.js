@@ -10,7 +10,6 @@ const promptUserName = () => {
 const storeUserInfoSessions = (name, userId) => {
   sessionStorage.setItem("userName", name);
   sessionStorage.setItem("userId", userId);
-  console.log("Hello " + name + "! How are you today?");
 };
 
 const attachUserDialogToDom = (userName) => {
@@ -30,11 +29,9 @@ const sendUserIdToServer = (userName) => {
     },
     body: userName,
   };
-  console.log("we are sending- ", options);
   fetch(url, options)
     .then((res) => res.json())
     .then((data) => {
-      console.log("User POST response is: ", data);
       let name = data.name;
       let userId = data.userId;
       storeUserInfoSessions(name, userId);
