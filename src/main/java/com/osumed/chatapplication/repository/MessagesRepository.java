@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class MessagesRepository {
 
     private List<Message> allMessages = new ArrayList<>();
-    private Integer messageId = 0;
+    private Integer messageId = 1;
 
     public void save(Message message) {
         message.setMessageId(messageId);

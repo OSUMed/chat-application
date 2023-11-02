@@ -11,7 +11,7 @@ let storedUserId = sessionStorage.getItem("userId");
 const channelId = channelIdTag.innerText;
 const url = `/api/channel/${channelId}`;
 const getUrl = `/api/channel/${channelId}/messages`;
-const REFRESH_INTERVAL_MS = 1500;
+const REFRESH_INTERVAL_MS = 500;
 const SCROLL_ADJUST_DELAY_MS = 50;
 
 // 2. Function Definitions
@@ -34,19 +34,18 @@ function getMessages() {
       if (data.error) {
         throw new Error(data.message);
       }
-      const { allMessages, lastMessagesId } = data;
+      // Define variables & Set up:
+      const { allMessages } = data;
       let newMessages;
       let messageElement;
-      console.log("getmessages allMessages is: ", allMessages);
-      // Filter out messages newer than session message Id:
       let sessionMessageId = Number(
         sessionStorage.getItem("lastMessageId") || 0
       );
-      console.log("session message id is: ", sessionMessageId);
+
+      // Filter new messages and newest message(race condition cover):
       newMessages = allMessages?.filter(
         (message) => message[2] > sessionMessageId
       );
-      console.log("newMessages message is: ", newMessages);
 
       // Iterate and append new messages to DOM:
       newMessages?.forEach((newMessage) => {
@@ -58,9 +57,8 @@ function getMessages() {
       // Update the lastMessageId if new messages were found
       if (newMessages?.length > 0) {
         newLastMessageId = newMessages[newMessages.length - 1][2];
-        sessionStorage.setItem("lastMessageId", newLastMessageId);
       }
-      console.log("in getMethod: ", newMessages, newLastMessageId);
+      sessionStorage.setItem("lastMessageId", newLastMessageId);
     })
     .catch((error) => {
       console.error("Fetch error: " + error.message);
@@ -71,7 +69,6 @@ function getMessages() {
 // Add message function
 function addMessage() {
   const message = generalMessageInput.value;
-  console.log("The new message value is: ", message);
 
   // Construct a JS object to send
   const messageBody = {
@@ -79,7 +76,6 @@ function addMessage() {
     userId: storedUserId,
     channelId: channelId,
   };
-  console.log("sending message body is: ", messageBody, url);
 
   const options = {
     method: "POST",
@@ -102,17 +98,13 @@ function addMessage() {
         if (data.error) {
           throw new Error(data.message);
         }
-        // Get newest message and append to DOM-
-        console.log("what are the main.js res for addMsg: ", data);
+        // To prevent race condition, store the returned new message's id:
         let newMessage = data[data.length - 1];
+        let newMessageId = data[data.length - 1][2];
+        sessionStorage.setItem("lastMessageId", newMessageId);
+
         messageElement.innerText = `${newMessage[0]}: ${newMessage[1]}`;
         mainList.appendChild(messageElement);
-
-        // Get current session message number and update it:
-        let sessionMessageId = Number(
-          sessionStorage.getItem("lastMessageId") || 0
-        );
-        sessionStorage.setItem("lastMessageId", sessionMessageId + 1);
       })
       .catch((error) => {
         console.error("Fetch error: " + error.message);
