@@ -32,7 +32,6 @@ public class MessagesService {
         message.setUserId(Integer.parseInt(messageDTO.getUserId()));
         message.setChannelId(Integer.parseInt(messageDTO.getChannelId()));
         message.setMessage(messageDTO.getMessage());
-        System.out.println("The created message is: " + message);
         return message;
     }
 }
