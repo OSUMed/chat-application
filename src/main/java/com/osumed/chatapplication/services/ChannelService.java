@@ -20,13 +20,11 @@ public class ChannelService {
 	private final UserService userService;
 	private final ChannelRepository channelRepository;
 
-	private Integer messageNumber = 0;
-
 	@Autowired
-	public ChannelService(MessagesService messagesService, UserService personService,
+	public ChannelService(MessagesService messagesService, UserService userService,
 			ChannelRepository channelRepository) {
 		this.messagesService = messagesService;
-		this.userService = personService;
+		this.userService = userService;
 		this.channelRepository = channelRepository;
 	}
 
@@ -50,12 +48,6 @@ public class ChannelService {
 				.collect(Collectors.toList());
 
 		return formattedMessages;
-	}
-
-	public void addMessage(Message message) {
-		messageNumber += 1;
-		message.setMessageId(messageNumber);
-		messagesService.addMessage(message);
 	}
 
 	public Channel getChannel(String channelId) {
