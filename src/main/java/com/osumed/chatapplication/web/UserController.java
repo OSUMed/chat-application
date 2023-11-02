@@ -24,7 +24,6 @@ public class UserController {
 
     @PostMapping("")
     public User postUser(@RequestBody String username) {
-        System.out.println(username);
         User returnedPerson = userService.addUser(username);
         return returnedPerson;
     }

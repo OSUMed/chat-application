@@ -19,7 +19,6 @@ public class UserService {
     }
 
     public Optional<User> getUser(Integer userId) {
-        // Retrieve a person from the repo by user ID
         return userRepository.getUser(userId);
     }
 
