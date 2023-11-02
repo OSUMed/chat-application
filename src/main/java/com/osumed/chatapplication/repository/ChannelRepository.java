@@ -43,8 +43,7 @@ public class ChannelRepository {
     }
 
     public List<Channel> getChannels() {
-        return channels.stream()
-                .collect(Collectors.toList());
+        return channels;
     }
 
 }
