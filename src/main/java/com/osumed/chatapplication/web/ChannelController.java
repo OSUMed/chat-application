@@ -40,10 +40,8 @@ public class ChannelController {
 
 	@GetMapping("/{channel_id}")
 	public String getGeneralMessages(ModelMap model, @PathVariable("channel_id") String channelId) {
-		// List<ArrayList<String>> messages =
 		channelService.getMessagesFromChannel(channelId);
 		Channel channel = channelService.getChannel(channelId);
-		// model.put("messages", messages);
 		model.put("channel", channel);
 		return "channel";
 	}
@@ -64,14 +62,10 @@ public class ChannelController {
 	public List<ArrayList<Object>> postMessage(@RequestBody MessageDTO messageDTO,
 			@PathVariable("channel_id") String channelId) {
 		Message message = messagesService.convertDTOToMessage(messageDTO);
-
-		System.out.println("What are the initial messagesDTO? " + message);
 		messagesService.addMessage((message));
 
 		// Get Items to return:
 		List<ArrayList<Object>> allMessages = channelService.getMessagesFromChannel(messageDTO.getChannelId());
-		System.out.println("What are the returned messages? " + allMessages);
-		System.out.println("What are the returned messages? " + allMessages);
 		return allMessages;
 	}
 

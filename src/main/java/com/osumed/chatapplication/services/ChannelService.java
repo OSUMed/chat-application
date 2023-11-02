@@ -34,7 +34,6 @@ public class ChannelService {
 		Channel currentChannel = getChannel(channelId);
 		List<Message> messages = messagesService.getMessages();
 
-		System.out.println("The current messages : " + messages);
 		List<ArrayList<Object>> formattedMessages = messages.stream()
 				.filter(message -> currentChannel.getChannelId().equals(message.getChannelId()))
 				.map(message -> {
@@ -42,26 +41,21 @@ public class ChannelService {
 					Integer userId = message.getUserId();
 					Optional<User> user = userService.getUser(userId);
 					if (user.isPresent()) {
-						System.out.println("the user is: " + user.get().getName());
 						tempList.add(user.get().getName());
 						tempList.add(message.getMessage());
 						tempList.add(message.getMessageId());
-						System.out.println("The current add : " + tempList);
 					}
 					return tempList;
 				})
 				.collect(Collectors.toList());
 
-		System.out.println("The current formattedMessages : " + formattedMessages);
 		return formattedMessages;
 	}
 
 	public void addMessage(Message message) {
-		System.out.println("The new message is: " + message);
 		messageNumber += 1;
 		message.setMessageId(messageNumber);
 		messagesService.addMessage(message);
-		System.out.println("The new message is: " + message);
 	}
 
 	public Channel getChannel(String channelId) {
